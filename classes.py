@@ -21,13 +21,16 @@ class ShoppingList(Item):
         self.items = []
         self.ITEM_ID = 0
 
+    def get_list_name(self):
+        return self.name
+
     def add_item(self, name):
         id = self.ITEM_ID
         self.ITEM_ID += 1
         i = Item(id, name)
         self.items.append(i)
 
-    def take_item(self, id):
+    def take_item_by_id(self, id):
         for item in self.items:
             if item.id == id:
                 item.is_taken(True)
