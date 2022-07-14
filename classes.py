@@ -8,8 +8,11 @@ class Item:
         self.name = name
         self.taken = False
 
-    def is_taken(self):
-        self.taken = True
+    def is_taken(self, bool):
+        self.taken = bool
+
+    def update_name(self, new_name):
+        self.name = new_name
 
 
 class ShoppingList(Item):
@@ -27,7 +30,23 @@ class ShoppingList(Item):
     def take_item(self, id):
         for item in self.items:
             if item.id == id:
-                item.is_taken()
+                item.is_taken(True)
+
+    def update_name_by_id(self, id, new_name):
+        for item in self.items:
+            if item.id == id:
+                item.update_name(new_name)
+
+    def delete_item_by_id(self, id):
+        for item in self.items:
+            if item.id == id:
+                self.items.remove(item)
+
+    def delete_items_if_taken(self):
+        for item in self.items:
+            if item.taken == True:
+                print(item.taken)
+                self.items.remove(item)
 
     def print_items(self):
         print(self.listName)
@@ -54,3 +73,18 @@ class ShoppingList(Item):
 #     def toJSON(self):
 #         return json.dumps(self, default=lambda o: o.__dict__,
 #                           sort_keys=True, indent=4)
+
+
+# sl = ShoppingList("My Shopping List")
+# sl.add_item("mjölk")
+# sl.add_item("smör")
+# sl.add_item("meritMjölk")
+# sl.add_item("potatis")
+# sl.take_item(3)
+# sl.take_item(1)
+# sl.print_items()
+
+# print("---------After delete: --------\n")
+# sl.delete_items_if_taken()
+
+# sl.print_items()

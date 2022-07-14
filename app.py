@@ -7,9 +7,13 @@ app = Flask(__name__)
 sl = ShoppingList("My Shopping List")
 sl.add_item("mjölk")
 sl.add_item("smör")
+sl.add_item("meritMjölk")
+sl.add_item("potatis")
+sl.take_item(3)
 sl.take_item(1)
 
-# sl.print_items()
+# print("After delete: ")
+# sl.delete_item_by_id(1)
 
 print(sl.toJSON())
 
@@ -19,7 +23,7 @@ def home():
     return render_template("index.html", data=sl)
 
 
-@app.route("/api/shopingList", methods=["GET"])
+@app.route("/api/shoppingList", methods=["GET"])
 def api():
     return sl.toJSON()
 
