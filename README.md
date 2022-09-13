@@ -1,4 +1,2 @@
 # Handlarlista-webapp
-Shopping list Webapp.
-
-This is a summer project to develop my skills in webdevelopment.
+Todo or shoping list api to be connectet with Flutter app
