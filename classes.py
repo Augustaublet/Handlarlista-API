@@ -3,16 +3,16 @@ import json
 
 
 class Item:
-    def __init__(self, id, name):
+    def __init__(self, id, title):
         self.id = id
-        self.name = name
-        self.taken = False
+        self.title = title
+        self.done = False
 
-    def is_taken(self, bool):
-        self.taken = bool
+    def isDone(self, bool):
+        self.done = bool
 
     def update_name(self, new_name):
-        self.name = new_name
+        self.title = new_name
 
 
 class ShoppingList(Item):
@@ -22,25 +22,21 @@ class ShoppingList(Item):
         self.ITEM_ID = 0
 
     def get_list_name(self):
-        return self.name
+        return self.title
 
-    def add_item(self, name):
+    def add_item(self, title):
         id = self.ITEM_ID
         self.ITEM_ID += 1
-        i = Item(id, name)
+        i = Item(str(id), title)
         self.items.append(i)
 
-    def take_item_by_id(self, id):
-        for item in self.items:
-            if item.id == id:
-                item.is_taken(True)
-
-    def update_name_by_id(self, id, new_name):
+    def update_by_id(self, id, new_name, newStatus):
         for item in self.items:
             if item.id == id:
                 item.update_name(new_name)
+                item.isDone(newStatus)
 
-    def delete_item_by_id(self, id):
+    def remove_item_by_id(self, id):
         for item in self.items:
             if item.id == id:
                 self.items.remove(item)
@@ -55,9 +51,13 @@ class ShoppingList(Item):
         print(self.listName)
         for item in self.items:
             print("id = ", item.id)
-            print("name =", item.name)
+            print("title =", item.title)
             print("is taken= ", item.taken)
             print()
+
+    def itemsListToJson(self):
+        return json.dumps(self.items, default=lambda o: o.__dict__, ensure_ascii=False,
+                          sort_keys=True, indent=4)
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, ensure_ascii=False,
@@ -70,8 +70,8 @@ class ShoppingList(Item):
 #         self.userName = userName
 #         self.shopingLists = []
 
-#     def add_new_shoppingList(self, name):
-#         self.shopingLists.append(ShoppingList(name))
+#     def add_new_shoppingList(self, title):
+#         self.shopingLists.append(ShoppingList(title))
 
 #     def toJSON(self):
 #         return json.dumps(self, default=lambda o: o.__dict__,
