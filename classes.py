@@ -1,4 +1,4 @@
-from asyncio.proactor_events import _ProactorBaseWritePipeTransport
+import secrets
 import json
 
 
@@ -16,10 +16,11 @@ class Item:
 
 
 class ShoppingList(Item):
-    def __init__(self, listName):
+    def __init__(self, listName, apiKey):
         self.listName = listName
         self.items = []
         self.ITEM_ID = 0
+        self.apiKey = apiKey
 
     def get_list_name(self):
         return self.title
@@ -62,6 +63,11 @@ class ShoppingList(Item):
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, ensure_ascii=False,
                           sort_keys=True, indent=4)
+
+
+def generateKey():
+    return secrets.token_urlsafe(16)
+
 
 # Kanske får ta det senare
 
