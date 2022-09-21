@@ -16,14 +16,14 @@ class Item:
 
 
 class ShoppingList(Item):
-    def __init__(self, listName, apiKey):
-        self.listName = listName
+    def __init__(self, listTitle, listID):
+        self.listTitle = listTitle
         self.items = []
         self.ITEM_ID = 0
-        self.apiKey = apiKey
+        self.listID = listID
 
     def get_list_name(self):
-        return self.title
+        return self.listTitle
 
     def add_item(self, title):
         id = self.ITEM_ID
@@ -63,10 +63,15 @@ class ShoppingList(Item):
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, ensure_ascii=False,
                           sort_keys=True, indent=4)
+    
+    def titleAndListIDtoJson(self):
+        return {"listTitle":self.listTitle, "ListID":self.listID}
 
+def generateListID():
+    temp = secrets.token_urlsafe(8)
+    print(temp)
+    return temp
 
-def generateKey():
-    return secrets.token_urlsafe(16)
 
 
 # Kanske får ta det senare
