@@ -65,7 +65,7 @@ class ShoppingList(Item):
                           sort_keys=True, indent=4)
     
     def titleAndListIDtoJson(self):
-        return {"listTitle":self.listTitle, "ListID":self.listID}
+        return {"listTitle":self.listTitle, "listID":self.listID}
 
 def generateListID():
     temp = secrets.token_urlsafe(8)
