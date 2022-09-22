@@ -103,4 +103,5 @@ def remove_Item(item_id):
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.1.137")
+    # my local ip 192.168.1.168
+    app.run(host="0.0.0.0")
