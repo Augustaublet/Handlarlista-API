@@ -1,6 +1,6 @@
 from importlib.metadata import requires
 from flask_restful import Resource, abort, reqparse
-from handlarwebapp.models import Shoppinglist, Listitem
+from handlarwebapp.models import Shoppinglist, Listitem, listInJson
 from handlarwebapp import db
 import json
 from flask import jsonify
@@ -18,28 +18,22 @@ parser.add_argument("newListTitle", required=True, help= "ListTitle kan inte var
 class ShoppingListsResorce(Resource):
     # returnerar alla listor i json (listtitle, id)
     def get(self):
-        queryresult = Shoppinglist.query.all()
-        jsonlista = []
-        for lista in queryresult:
-            jsonlista.append({"listTitle":lista.listTitle, "id":lista.id})
-        return jsonify(jsonlista)    
+        return listInJson(Shoppinglist.query.all())  
 
     # lägget till en ny lista med "newListTitle" 
     # och returnerar json med alla listor(listTitle, id)
     def post(self):
         args = parser.parse_args()
         newListTitle = args["newListTitle"]
-        print(newListTitle)
         db.session.add(Shoppinglist(listTitle=newListTitle))
         db.session.commit()
-        queryresult = Shoppinglist.query.all()
-        jsonlista = []
-        for lista in queryresult:
-            jsonlista.append({"listTitle":lista.listTitle, "id":lista.id})
-        return jsonify(jsonlista)  
+
+        return listInJson(Shoppinglist.query.all())  
+
     def delete(self, list_id):
-        
-        return list_id
+        db.session.delete(Shoppinglist.query.get(list_id))
+        db.session.commit()
+        return listInJson(Shoppinglist.query.all()) 
 
 
 class ListItemResorce(Resource):

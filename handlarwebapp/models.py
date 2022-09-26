@@ -1,5 +1,5 @@
 from . import db
-
+from flask import jsonify
 class Listitem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     itemName = db.Column(db.String(50), nullable=False)
@@ -14,3 +14,10 @@ class Shoppinglist(db.Model):
     # items = db.Column(db.Integer, 
     #     db.ForeignKey('shoppinglist.id'), nullable=False) 
     items = db.relationship('Listitem')
+
+
+def listInJson(queryresult):
+    jsonlista = []
+    for lista in queryresult:
+        jsonlista.append({"listTitle":lista.listTitle, "id":lista.id})
+    return jsonify(jsonlista)   
