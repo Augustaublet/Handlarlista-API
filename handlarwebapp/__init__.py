@@ -22,8 +22,8 @@ def create_app():
     
     create_datebase(app)
 
-    api.add_resource(routes.ShoppingListsResorce, "/api/shoppinglist/","/api/shoppinglist/<list_id>")
-    api.add_resource(routes.ListItemResorce, "/api/shoppinglist/items/<list_id>", "/api/shoppinglist/items/<list_id>/<item_id>" )
+    api.add_resource(routes.ShoppingListsResorce, "/shoppinglist/","/shoppinglist/<list_id>")
+    api.add_resource(routes.ListItemResorce, "/shoppinglist/items/<list_id>", "/shoppinglist/items/<list_id>/<item_id>" )
 
     return app
 def create_datebase(app):

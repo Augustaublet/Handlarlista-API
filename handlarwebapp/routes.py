@@ -19,6 +19,7 @@ item_parser.add_argument("newItemName")
 item_parser.add_argument("itemIsDone", type=bool)
 item_parser.add_argument("deleteAllDone", type= bool, help= "this command neads to be a bool")
 
+
 class ShoppingListsResorce(Resource):
     # returnerar alla listor i json (listtitle, id)
     def get(self):
@@ -30,8 +31,14 @@ class ShoppingListsResorce(Resource):
         args = list_parser.parse_args()
         db.session.add(Shoppinglist(listTitle=args["newListTitle"]))
         db.session.commit()
-
-        return listTitleInJson()  
+        return listTitleInJson() 
+    
+    def put(self,list_id):
+        args = list_parser.parse_args()
+        list_to_update = Shoppinglist.query.get(list_id)
+        list_to_update.listTitle = args["newListTitle"]
+        db.session.commit()
+        return listTitleInJson() 
     # tar bort en lista men hjälp av list_id
     def delete(self, list_id):
         db.session.delete(Shoppinglist.query.get(list_id))
