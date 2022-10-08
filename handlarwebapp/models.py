@@ -10,6 +10,20 @@ class Shoppinglist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     listTitle = db.Column(db.String(50), nullable=False)   
     items = db.relationship('Listitem')
+    owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+    sharedWith = db.relationship('user')
+    
+
+    # detta behöver testas. Oklar över relationerna få det är en åt varje håll...
+class User(db.Model):
+    id = db.Column(db.Interger, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50),nullable=False)
+    myLists = db.relationship('Shoppinglist')
+    sharedWithMe = db.Column(db.Integer, db.ForeignKey('shoppinglist.id'))
+
+
+
 
 
 def listTitleInJson():
