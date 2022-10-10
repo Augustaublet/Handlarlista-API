@@ -1,3 +1,4 @@
+import email
 from . import db
 from flask import jsonify
 class Listitem(db.Model):
@@ -10,17 +11,26 @@ class Shoppinglist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     listTitle = db.Column(db.String(50), nullable=False)   
     items = db.relationship('Listitem')
-    owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     sharedWith = db.relationship('user')
     
 
-    # detta behöver testas. Oklar över relationerna få det är en åt varje håll...
+    
 class User(db.Model):
-    id = db.Column(db.Interger, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50),nullable=False)
     myLists = db.relationship('Shoppinglist')
     sharedWithMe = db.Column(db.Integer, db.ForeignKey('shoppinglist.id'))
+    email = db.Column(db.String(80))
+    devices = db.relationship('DeviceModel', back_popilates='user')
+
+class DeviceModel(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    device_name = db.Column(db.String(80))
+    device_key = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='devices')
 
 
 
